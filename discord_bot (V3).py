@@ -69,6 +69,10 @@ async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None and after.channel.id == allowed_channel_id:
         await create_temporary_voice_channel(member)
 
+    # Добавляем создание голосового канала при входе в специальный голосовой канал
+    if before.channel is None and after.channel is not None and after.channel.id == 1208940005825843231:  # ID специального голосового канала
+        await create_temporary_voice_channel(member)
+
 
 async def log_message(message):
     log_data = {
