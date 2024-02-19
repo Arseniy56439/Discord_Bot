@@ -19,7 +19,7 @@ intents = discord.Intents.all()
 intents.voice_states = True
 intents.members = True
 bot = commands.Bot(command_prefix=PREFIX, intents=intents)
-TOKEN = 'MTIwODkyNDc2MjI2MTI5OTI1MA.GS5-3F.1IKDms6i7_zw_wJCLxKwgwkaQpqtxr6FR0Yj2o'
+TOKEN = ''
 
 channel_members = {}
 voice_time = {}
