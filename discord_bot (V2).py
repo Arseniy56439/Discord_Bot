@@ -18,7 +18,7 @@ intents = discord.Intents.all()
 intents.voice_states = True
 intents.members = True
 bot = commands.Bot(command_prefix=PREFIX, intents=intents)
-TOKEN = 'MTIwODkyNDc2MjI2MTI5OTI1MA.Gw2sZF.3UtnoxHUm5IDQn8Rkgcb_1gKE-jP4vY-N-H3G0'
+TOKEN = ''
 
 channel_members = {}
 voice_time = {}
@@ -28,11 +28,6 @@ python = 'python'  # Предполагается, что 'python' доступ�
 allowed_channel_id = 1208945786826526760
 timeout_role_id = 1208957029964709909
 
-channel_names = {
-    1208924111712034857: 'channel1',
-    1208924111712034858: 'channel2',
-    1208924111712034859: 'channel3',
-}
 
 @bot.event
 async def on_ready():
@@ -75,9 +70,8 @@ async def on_voice_state_update(member, before, after):
 
 
 async def log_message(message):
-    channel_name = channel_names.get(message.channel.id, 'Unknown Channel')
-    logging.info(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] [{channel_name}]: @{message.author}: {message.content}')
-    await bot.get_channel(1208992420184981554).send(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] [{channel_name}]: @{message.author}: {message.content}')
+    logging.info(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] [{message.channel.name}] {message.author.mention}: {message.content}')
+    await bot.get_channel(1208992420184981554).send(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] [{message.channel.name}] {message.author.mention}: {message.content}')
 
 
 @bot.event
@@ -85,9 +79,10 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if message.channel.id in channel_names:
+    if message.channel.id == 1209154053032906793:  # ID текстового канала, в который нужно логировать сообщения
         await log_message(message)
-
+    if message.channel.id == 1209160392211697664:  # ID текстового канала, в который нужно логировать сообщения
+        await log_message(message)   
     # Добавляем дату и время к отправляемым сообщениям в определенном канале
     if message.channel.id == 1208992420184981554:
         await message.channel.send(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] {message.content}')
