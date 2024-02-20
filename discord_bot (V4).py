@@ -98,15 +98,21 @@ async def log_message(message):
 
     await bot.get_channel(1208992420184981554).send(f'[{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H:%M:%S")}] [{message.channel.name}] {message.author.display_name}: {message.content}')
 
-  # Сохраняем все вложения из сообщения в папку с ботом
     if len(message.attachments) > 0:
-     for attachment in message.attachments:
-         if attachment.filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
-                filename = f'[{message.author.display_name}][{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H-%M-%S")}]{attachment.filename}'
+        for attachment in message.attachments:
+            if attachment.filename.endswith(('.jpg', '.jpeg', '.png', '.gif', '.txt', '.zip')):
+                filename = f'[{message.author.display_name}][{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H-%M-%S")}] {attachment.filename}'
+                # Создаем папку для изображений, если она не существует
+                os.makedirs('./files', exist_ok=True)
+                # Сохраняем изображение в папке
                 await attachment.save(f'./files/{filename}')
-         elif attachment.filename.endswith(('.mp3', '.wav', '.ogg')):
-                filename = f'[{message.author.display_name}][{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H-%M-%S")}]{attachment.filename}'
+            elif attachment.filename.endswith(('.mp3', '.wav', '.ogg')):
+                filename = f'[{message.author.display_name}][{datetime.now().strftime("%Y-%m-%d")}] [{datetime.now().strftime("%H-%M-%S")}] {attachment.filename}'
+                # Создаем папку для голосовых сообщений, если она не существует
+                os.makedirs('./voice_messages', exist_ok=True)
+                # Сохраняем голосовое сообщение в папке
                 await attachment.save(f'./voice_messages/{filename}')
+
 
 @bot.event
 async def on_message(message):
